@@ -21,10 +21,11 @@ class CornholeGameUI(QMainWindow):
 
         # Create a button
         self.end_round_button = QPushButton("End Round")
-        self.end_round_button.setMinimumSize(100,100)
-        button_font = self.end_round_button.font()
-        button_font.setPointSize(18)  # Set the font size (adjust as needed)
-        self.end_round_button.setFont(button_font)
+        # self.end_round_button.setMinimumSize(100,100)
+        # button_font = self.end_round_button.font()
+        # button_font.setPointSize(18)  # Set the font size (adjust as needed)
+        # self.end_round_button.setFont(button_font)
+        self.enlarge_component(self.end_round_button)
         self.end_round_button.clicked.connect(self.end_round_button_clicked)
 
         # Create a horizontal layout for Team 1's buttons
@@ -35,6 +36,8 @@ class CornholeGameUI(QMainWindow):
         self.team1_decrement_button.clicked.connect(lambda: self.update_score(1, -1))
         layout_team1_buttons.addWidget(self.team1_decrement_button)
         layout_team1_buttons.addWidget(self.team1_increment_button)
+        self.enlarge_component(self.team1_increment_button)
+        self.enlarge_component(self.team1_decrement_button)
 
         # Create a horizontal layout for Team 2's buttons
         layout_team2_buttons = QHBoxLayout()
@@ -44,6 +47,8 @@ class CornholeGameUI(QMainWindow):
         self.team2_decrement_button.clicked.connect(lambda: self.update_score(2, -1))
         layout_team2_buttons.addWidget(self.team2_decrement_button)
         layout_team2_buttons.addWidget(self.team2_increment_button)
+        self.enlarge_component(self.team2_increment_button)
+        self.enlarge_component(self.team2_decrement_button)
 
 
         # Create labels for displaying scores
@@ -142,6 +147,12 @@ class CornholeGameUI(QMainWindow):
             if (new_score < 0):
                 new_score = 0
             self.team2_score_label.setText(str(new_score))
+
+    def enlarge_component(self, button):
+        button.setMinimumSize(100,50)
+        button_font = button.font()
+        button_font.setPointSize(18)  # Set the font size (adjust as needed)
+        button.setFont(button_font)
 
 def main():
     app = QApplication(sys.argv)
