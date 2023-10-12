@@ -1,4 +1,4 @@
-import socket, bluetooth
+import socket
 
 # Define the RFCOMM channel number
 channel = 0
@@ -27,8 +27,6 @@ try:
         data = sock.recv(1024)
         print("Received:", data.decode())
 
-except bluetooth.btcommon.BluetoothError as e:
-    print("Error:", e)
 
 finally:
     sock.close()
