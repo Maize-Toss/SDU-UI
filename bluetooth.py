@@ -1,4 +1,4 @@
-import bluetooth
+import socket, bluetooth
 
 # Define the RFCOMM channel number
 channel = 0
@@ -6,8 +6,9 @@ channel = 0
 # Replace this with the device address you bound to
 device_address = "00:21:10:30:16:91"
 
-# Create a Bluetooth socket
-sock = bluetooth.BluetoothSocket(bluetooth.RFCOMM)
+# Create a socket
+sock = socket.socket(socket.AF_BLUETOOTH, socket.SOCK_STREAM, socket.BTPROTO_RFCOMM)
+
 
 try:
     # Connect to the device
