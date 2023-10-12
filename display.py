@@ -1,6 +1,6 @@
 import sys
 from PyQt5.QtWidgets import QApplication, QMainWindow, QVBoxLayout, QHBoxLayout, QWidget, QLabel, QGridLayout, QPushButton, QMessageBox
-from PyQt5.QtGui import QPixmap
+from PyQt5.QtGui import QPixmap, QFont
 from PyQt5.QtCore import Qt
 from PyQt5.QtMultimedia import QSound
 
@@ -21,6 +21,10 @@ class CornholeGameUI(QMainWindow):
 
         # Create a button
         self.end_round_button = QPushButton("End Round")
+        self.end_round_button.setMinimumSize(100,100)
+        button_font = self.end_round_button.font()
+        button_font.setPointSize(18)  # Set the font size (adjust as needed)
+        self.end_round_button.setFont(button_font)
         self.end_round_button.clicked.connect(self.end_round_button_clicked)
 
         # Create a horizontal layout for Team 1's buttons
@@ -46,20 +50,20 @@ class CornholeGameUI(QMainWindow):
         # self.team1_label = QLabel("Team 1")
         # self.team1_label.setAlignment(Qt.AlignCenter)
         # self.team1_label.setStyleSheet("font-size: 48px; color: red;")
-        self.team1_score_label = QLabel("1")
+        self.team1_score_label = QLabel("0")
         self.team1_score_label.setAlignment(Qt.AlignCenter)
-        self.team1_score_label.setStyleSheet("font-size: 80px; color: red;")
+        self.team1_score_label.setStyleSheet("font-size: 200px; color: red;")
 
         self.vs_label = QLabel("vs")
         self.vs_label.setAlignment(Qt.AlignCenter)
-        self.vs_label.setStyleSheet("font-size: 48px; color: black;")
+        self.vs_label.setStyleSheet("font-size: 100px; color: black;")
 
         # self.team2_label = QLabel("Team 2")
         # self.team2_label.setAlignment(Qt.AlignCenter)
         # self.team2_label.setStyleSheet("font-size: 48px; color: blue;")
-        self.team2_score_label = QLabel("4")
+        self.team2_score_label = QLabel("0")
         self.team2_score_label.setAlignment(Qt.AlignCenter)
-        self.team2_score_label.setStyleSheet("font-size: 80px; color: blue;")
+        self.team2_score_label.setStyleSheet("font-size: 200px; color: blue;")
 
         # layout_left.addWidget(self.team1_label)
         layout_left.addWidget(self.team1_score_label)
@@ -102,7 +106,7 @@ class CornholeGameUI(QMainWindow):
         else:
             beanbag_image = QPixmap("bluebag.png")
 
-        beanbag_image = beanbag_image.scaled(40, 40, Qt.KeepAspectRatio)
+        beanbag_image = beanbag_image.scaled(80, 80, Qt.KeepAspectRatio)
         for i in range(1):
             for j in range(4):
                 beanbag_label = QLabel()
@@ -118,7 +122,7 @@ class CornholeGameUI(QMainWindow):
     
     def end_round_button_clicked(self):
         QSound.play("bowling_strike.wav")  # Replace "audio.wav" with the path to your sound file
-        
+
         message_box = QMessageBox()
         message_box.setWindowTitle("Maize Toss")
         message_box.setText("End of Round")
@@ -145,7 +149,7 @@ def main():
     game_ui.show()
 
     # Example: Update scores
-    game_ui.update_scores(1, 4)
+    game_ui.update_scores(0, 0)
 
     sys.exit(app.exec_())
 
