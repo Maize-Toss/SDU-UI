@@ -2,6 +2,7 @@ import sys
 from PyQt5.QtWidgets import QApplication, QMainWindow, QVBoxLayout, QHBoxLayout, QWidget, QLabel, QGridLayout, QPushButton, QMessageBox
 from PyQt5.QtGui import QPixmap
 from PyQt5.QtCore import Qt
+from PyQt5.QtMultimedia import QSound
 
 class CornholeGameUI(QMainWindow):
     def __init__(self):
@@ -21,6 +22,25 @@ class CornholeGameUI(QMainWindow):
         # Create a button
         self.end_round_button = QPushButton("End Round")
         self.end_round_button.clicked.connect(self.end_round_button_clicked)
+
+        # Create a horizontal layout for Team 1's buttons
+        layout_team1_buttons = QHBoxLayout()
+        self.team1_increment_button = QPushButton("+")
+        self.team1_decrement_button = QPushButton("-")
+        self.team1_increment_button.clicked.connect(lambda: self.update_score(1, 1))
+        self.team1_decrement_button.clicked.connect(lambda: self.update_score(1, -1))
+        layout_team1_buttons.addWidget(self.team1_decrement_button)
+        layout_team1_buttons.addWidget(self.team1_increment_button)
+
+        # Create a horizontal layout for Team 2's buttons
+        layout_team2_buttons = QHBoxLayout()
+        self.team2_increment_button = QPushButton("+")
+        self.team2_decrement_button = QPushButton("-")
+        self.team2_increment_button.clicked.connect(lambda: self.update_score(2, 1))
+        self.team2_decrement_button.clicked.connect(lambda: self.update_score(2, -1))
+        layout_team2_buttons.addWidget(self.team2_decrement_button)
+        layout_team2_buttons.addWidget(self.team2_increment_button)
+
 
         # Create labels for displaying scores
         # self.team1_label = QLabel("Team 1")
@@ -67,6 +87,10 @@ class CornholeGameUI(QMainWindow):
         layout_left.addWidget(self.add_beanbags(1))
         layout_right.addWidget(self.add_beanbags(2))
 
+        # Add the button layouts for Team 1 and Team 2 to the main layout
+        layout_left.addLayout(layout_team1_buttons)
+        layout_right.addLayout(layout_team2_buttons)
+
     def add_beanbags(self, team):
         # Create a grid layout for the bean bags
         beanbag_widget = QWidget(self)
@@ -93,11 +117,27 @@ class CornholeGameUI(QMainWindow):
         self.team2_score_label.setText(str(team2_score))
     
     def end_round_button_clicked(self):
+        QSound.play("bowling_strike.wav")  # Replace "audio.wav" with the path to your sound file
+        
         message_box = QMessageBox()
         message_box.setWindowTitle("Maize Toss")
         message_box.setText("End of Round")
         message_box.setIcon(QMessageBox.Information)
         message_box.exec_()
+
+    def update_score(self, team, value):
+        if team == 1:
+            current_score = int(self.team1_score_label.text())
+            new_score = current_score + value
+            if (new_score < 0):
+                new_score = 0
+            self.team1_score_label.setText(str(new_score))
+        elif team == 2:
+            current_score = int(self.team2_score_label.text())
+            new_score = current_score + value
+            if (new_score < 0):
+                new_score = 0
+            self.team2_score_label.setText(str(new_score))
 
 def main():
     app = QApplication(sys.argv)
