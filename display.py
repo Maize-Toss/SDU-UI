@@ -5,6 +5,7 @@ from PyQt5.QtCore import Qt
 from PyQt5.QtMultimedia import QSound
 import json 
 import serial
+import threading
 
 class CornholeGameUI(QMainWindow):
     def __init__(self):
@@ -12,6 +13,7 @@ class CornholeGameUI(QMainWindow):
 
         # Create a Serial object for /dev/rfcomm0
         # self.ser = serial.Serial('/dev/rfcomm0', 9600)  # Adjust the baud rate as needed
+        # Create a new thread and pass the function to it
 
         self.setWindowTitle("Cornhole Game")
         self.setGeometry(100, 100, 800, 400)
@@ -143,7 +145,11 @@ class CornholeGameUI(QMainWindow):
         # message_box.setText("End of Round")
         # message_box.setIcon(QMessageBox.Information)
         # message_box.exec_()
-        self.send_state(2, True)
+
+        # Create a new thread and pass the function and its arguments
+        send_thread = threading.Thread(target=self.send_state, args=(2, True))
+        # Start the thread to execute the send function
+        send_thread.start()
 
     def update_score(self, team, value):
         send_val = True
@@ -163,7 +169,10 @@ class CornholeGameUI(QMainWindow):
             self.team2_score_label.setText(str(new_score))
         
         if send_val:
-            self.send_state(2, False)
+            # Create a new thread and pass the function and its arguments
+            send_thread = threading.Thread(target=self.send_state, args=(2, False))
+            # Start the thread to execute the send function
+            send_thread.start()
 
     def enlarge_component(self, button):
         button.setMinimumSize(100,50)
