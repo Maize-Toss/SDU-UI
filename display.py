@@ -132,11 +132,14 @@ class CornholeGameUI(QMainWindow):
     def listen_bluetooth(self):
         while True:  # Or: while ser.inWaiting():
             # Execute the shell command and capture the result
+            print("try to listen")
             command = "cat /dev/rfcomm0"
             result = subprocess.getoutput(command)
 
             if len(result) > 0:
                 print(result)
+            else:
+                print("no result sleeping")
 
             time.sleep(1)
 
