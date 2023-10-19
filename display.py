@@ -3,10 +3,15 @@ from PyQt5.QtWidgets import QApplication, QMainWindow, QVBoxLayout, QHBoxLayout,
 from PyQt5.QtGui import QPixmap, QFont
 from PyQt5.QtCore import Qt
 from PyQt5.QtMultimedia import QSound
+import json 
+import serial
 
 class CornholeGameUI(QMainWindow):
     def __init__(self):
         super().__init__()
+
+        # Create a Serial object for /dev/rfcomm0
+        # self.ser = serial.Serial('/dev/rfcomm0', 9600)  # Adjust the baud rate as needed
 
         self.setWindowTitle("Cornhole Game")
         self.setGeometry(100, 100, 800, 400)
@@ -124,15 +129,21 @@ class CornholeGameUI(QMainWindow):
     def update_scores(self, team1_score, team2_score):
         self.team1_score_label.setText(str(team1_score))
         self.team2_score_label.setText(str(team2_score))
+
+    def send_state(self, cbu):
+        uiState = self.get_ui_state(True)
+        json_object = json.dumps(uiState, indent = 4)  
+        self.write_to_rfcomm(json_object, cbu)
     
     def end_round_button_clicked(self):
         QSound.play("bowling_strike.wav")  # Replace "audio.wav" with the path to your sound file
 
-        message_box = QMessageBox()
-        message_box.setWindowTitle("Maize Toss")
-        message_box.setText("End of Round")
-        message_box.setIcon(QMessageBox.Information)
-        message_box.exec_()
+        # message_box = QMessageBox()
+        # message_box.setWindowTitle("Maize Toss")
+        # message_box.setText("End of Round")
+        # message_box.setIcon(QMessageBox.Information)
+        # message_box.exec_()
+        self.send_state(2)
 
     def update_score(self, team, value):
         if team == 1:
@@ -148,11 +159,39 @@ class CornholeGameUI(QMainWindow):
                 new_score = 0
             self.team2_score_label.setText(str(new_score))
 
+        self.send_state(2)
+
     def enlarge_component(self, button):
         button.setMinimumSize(100,50)
         button_font = button.font()
         button_font.setPointSize(18)  # Set the font size (adjust as needed)
         button.setFont(button_font)
+
+    def get_ui_state(self, end_of_round):
+        # get ui state and compress it into json
+        dict = []
+        dict["team1"]["score"] =  int(self.team1_score_label.text())
+        dict["team1"]["state"] = 0
+
+        dict["team2"]["score"] =  int(self.team2_score_label.text())
+        dict["team2"]["state"] = 0
+
+        dict["end_of_round"] = end_of_round
+
+        return dict
+    
+    def write_to_rfcomm(self, data, cbu):
+        # send data over bluetooth
+        if cbu == 0 or cbu == 2:
+            with open("/dev/rfcomm0") as bt:
+                bt.write(data)
+        elif cbu == 1 or cbu == 2:
+            with open("dev/rfcomm1") as bt:
+                bt.write(data)
+        else:
+            print("Device not recognized")
+
+        print("Data sent successfully.")
 
 def main():
     app = QApplication(sys.argv)

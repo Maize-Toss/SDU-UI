@@ -1,0 +1,7 @@
+{
+    "cbu": 0,           // cbu id
+    "battery": 10.56,   // percentage of battery 
+    "team": 0,          // team id
+    "score": 3          // raw score
+}
+  

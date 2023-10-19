@@ -1,0 +1,12 @@
+{
+    "team1": {
+        "score": 4,
+        "state": 1
+    },
+    "team2": {
+        "score": 3,
+        "state": 0
+    },
+    "end_of_round": true
+}
+  
