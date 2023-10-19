@@ -184,11 +184,13 @@ class CornholeGameUI(QMainWindow):
     
     def write_to_rfcomm(self, data, cbu):
         # send data over bluetooth
+        print("Sending data:")
+        print(data)
         if cbu == 0 or cbu == 2:
             with open("/dev/rfcomm0") as bt:
                 bt.write(data)
         elif cbu == 1 or cbu == 2:
-            with open("dev/rfcomm1") as bt:
+            with open("/dev/rfcomm1") as bt:
                 bt.write(data)
         else:
             print("Device not recognized")
