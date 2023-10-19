@@ -169,16 +169,18 @@ class CornholeGameUI(QMainWindow):
 
     def get_ui_state(self, end_of_round):
         # get ui state and compress it into json
-        dict = []
-        dict["team1"]["score"] =  int(self.team1_score_label.text())
-        dict["team1"]["state"] = 0
-
-        dict["team2"]["score"] =  int(self.team2_score_label.text())
-        dict["team2"]["state"] = 0
-
-        dict["end_of_round"] = end_of_round
-
-        return dict
+        data = {
+            "team1": {
+                "score": int(self.team1_score_label.text()),
+                "state": 0
+            },
+            "team2": {
+                "score": int(self.team2_score_label.text()),
+                "state": 0
+            },
+            "end_of_round": end_of_round
+        }
+        return data
     
     def write_to_rfcomm(self, data, cbu):
         # send data over bluetooth
