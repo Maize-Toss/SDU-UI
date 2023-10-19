@@ -9,6 +9,7 @@ import threading
 import subprocess
 import time
 import select
+from sh import tail
 
 class CornholeGameUI(QMainWindow):
     def __init__(self):
@@ -132,14 +133,17 @@ class CornholeGameUI(QMainWindow):
     # Function to call when /dev/rfcomm0 is written
     def listen_bluetooth(self):
 
-        f = subprocess.Popen(['tail','-F',"/dev/rfcomm0"],\
-        stdout=subprocess.PIPE,stderr=subprocess.PIPE)
-        p = select.poll()
-        p.register(f.stdout)
+        # f = subprocess.Popen(['tail','-F',"/dev/rfcomm0"],\
+        # stdout=subprocess.PIPE,stderr=subprocess.PIPE)
+        # p = select.poll()
+        # p.register(f.stdout)
 
-        while True:
-            if p.poll(1):
-                print(f.stdout.readline())
+        # while True:
+        #     if p.poll(1):
+        #         print(f.stdout.readline())
+        # runs forever
+        for line in tail("-f", "/var/log/some_log_file.log", _iter=True):
+            print(line)
 
         # while True:  # Or: while ser.inWaiting():
         #     # Execute the shell command and capture the result
