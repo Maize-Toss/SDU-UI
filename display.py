@@ -24,7 +24,7 @@ class CornholeGameUI(QMainWindow):
         wm.add_watch("/dev/rfcomm0", mask)
 
         # Create a Notifier that will call on_rfcomm0_write when the event occurs
-        notifier = pyinotify.Notifier(wm, on_rfcomm0_write)
+        notifier = pyinotify.Notifier(wm, self.on_rfcomm0_write)
 
         self.setWindowTitle("Cornhole Game")
         self.setGeometry(100, 100, 800, 400)
