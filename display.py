@@ -6,6 +6,8 @@ from PyQt5.QtMultimedia import QSound
 import json 
 import serial
 import threading
+import subprocess
+import time
 
 class CornholeGameUI(QMainWindow):
     def __init__(self):
@@ -13,8 +15,6 @@ class CornholeGameUI(QMainWindow):
 
         # Create a Serial object for /dev/rfcomm0
         # self.ser = serial.Serial('/dev/rfcomm0', 9600)  # Adjust the baud rate as needed
-        # Create an Inotify instance
-        self.ser = serial.Serial('/dev/rfcomm0', 9600, timeout=0.050)
 
         self.setWindowTitle("Cornhole Game")
         self.setGeometry(100, 100, 800, 400)
@@ -104,7 +104,7 @@ class CornholeGameUI(QMainWindow):
         layout_left.addLayout(layout_team1_buttons)
         layout_right.addLayout(layout_team2_buttons)
 
-        monitor_thread = threading.Thread(target=self.on_rfcomm0_write)
+        monitor_thread = threading.Thread(target=self.listen_bluetooth)
         monitor_thread.start()
 
     def add_beanbags(self, team):
@@ -129,9 +129,16 @@ class CornholeGameUI(QMainWindow):
         return beanbag_widget
 
     # Function to call when /dev/rfcomm0 is written
-    def on_rfcomm0_write(self):
-        while self.ser.in_waiting:  # Or: while ser.inWaiting():
-            print(self.ser.readline())
+    def listen_bluetooth(self):
+        while True:  # Or: while ser.inWaiting():
+            # Execute the shell command and capture the result
+            command = "cat /dev/rfcomm0"
+            result = subprocess.getoutput(command)
+
+            if len(result) > 0:
+                print(result)
+
+            time.sleep(1)
 
     def update_scores(self, team1_score, team2_score):
         self.team1_score_label.setText(str(team1_score))
