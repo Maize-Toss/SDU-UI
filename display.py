@@ -138,10 +138,10 @@ class CornholeGameUI(QMainWindow):
 
             if len(result) > 0:
                 print(result)
-            else:
-                print("no result sleeping")
+            # else:
+            #     print("no result sleeping")
 
-            time.sleep(0.1)
+            time.sleep(0.001)
 
     def update_scores(self, team1_score, team2_score):
         self.team1_score_label.setText(str(team1_score))
