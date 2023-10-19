@@ -142,7 +142,7 @@ class CornholeGameUI(QMainWindow):
         #     if p.poll(1):
         #         print(f.stdout.readline())
         # runs forever
-        for line in tail("-f", "/var/log/some_log_file.log", _iter=True):
+        for line in tail("-f", "/var/log/bt.log", _iter=True):
             print(line)
 
         # while True:  # Or: while ser.inWaiting():
