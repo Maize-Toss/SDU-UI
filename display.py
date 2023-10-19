@@ -8,6 +8,7 @@ import serial
 import threading
 import subprocess
 import time
+import select
 
 class CornholeGameUI(QMainWindow):
     def __init__(self):
@@ -130,18 +131,29 @@ class CornholeGameUI(QMainWindow):
 
     # Function to call when /dev/rfcomm0 is written
     def listen_bluetooth(self):
-        while True:  # Or: while ser.inWaiting():
-            # Execute the shell command and capture the result
-            # print("try to listen")
-            command = "cat /dev/rfcomm0"
-            result = subprocess.getoutput(command)
 
-            if len(result) > 0:
-                print(result)
-            # else:
-            #     print("no result sleeping")
+        f = subprocess.Popen(['tail','-F',"/dev/rfcomm0"],\
+        stdout=subprocess.PIPE,stderr=subprocess.PIPE)
+        p = select.poll()
+        p.register(f.stdout)
 
-            time.sleep(0.001)
+        while True:
+            if p.poll(1):
+                print(f.stdout.readline())
+            time.sleep(1)
+
+        # while True:  # Or: while ser.inWaiting():
+        #     # Execute the shell command and capture the result
+        #     # print("try to listen")
+        #     command = "cat /dev/rfcomm0"
+        #     result = subprocess.getoutput(command)
+
+        #     if len(result) > 0:
+        #         print(result)
+        #     # else:
+        #     #     print("no result sleeping")
+
+        #     time.sleep(0.001)
 
     def update_scores(self, team1_score, team2_score):
         self.team1_score_label.setText(str(team1_score))
