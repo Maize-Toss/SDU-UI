@@ -130,8 +130,8 @@ class CornholeGameUI(QMainWindow):
         self.team1_score_label.setText(str(team1_score))
         self.team2_score_label.setText(str(team2_score))
 
-    def send_state(self, cbu):
-        uiState = self.get_ui_state(True)
+    def send_state(self, cbu, end_round):
+        uiState = self.get_ui_state(end_round)
         json_object = json.dumps(uiState, indent = 4)  
         self.write_to_rfcomm(json_object, cbu)
     
@@ -143,23 +143,27 @@ class CornholeGameUI(QMainWindow):
         # message_box.setText("End of Round")
         # message_box.setIcon(QMessageBox.Information)
         # message_box.exec_()
-        self.send_state(2)
+        self.send_state(2, True)
 
     def update_score(self, team, value):
+        send_val = True
         if team == 1:
             current_score = int(self.team1_score_label.text())
             new_score = current_score + value
             if (new_score < 0):
                 new_score = 0
+                send_val = False
             self.team1_score_label.setText(str(new_score))
         elif team == 2:
             current_score = int(self.team2_score_label.text())
             new_score = current_score + value
             if (new_score < 0):
                 new_score = 0
+                send_val = False
             self.team2_score_label.setText(str(new_score))
-
-        self.send_state(2)
+        
+        if send_val:
+            self.send_state(2, False)
 
     def enlarge_component(self, button):
         button.setMinimumSize(100,50)
@@ -185,13 +189,13 @@ class CornholeGameUI(QMainWindow):
     def write_to_rfcomm(self, data, cbu):
         # send data over bluetooth
         print("Sending data:")
-        print(data)
+        print(data + "\n")
         if cbu == 0 or cbu == 2:
             with open("/dev/rfcomm0",'w') as bt:
-                bt.write(data)
+                bt.write(data + "\n")
         elif cbu == 1 or cbu == 2:
             with open("/dev/rfcomm1",'w') as bt:
-                bt.write(data)
+                bt.write(data + "\n")
         else:
             print("Device not recognized")
 
