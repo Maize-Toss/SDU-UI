@@ -14,7 +14,7 @@ class CornholeGameUI(QMainWindow):
         # Create a Serial object for /dev/rfcomm0
         # self.ser = serial.Serial('/dev/rfcomm0', 9600)  # Adjust the baud rate as needed
         # Create an Inotify instance
-        self.ser = serial.Serial('/dev/refcomm0', 9600, timeout=0.050)
+        self.ser = serial.Serial('/dev/rfcomm0', 9600, timeout=0.050)
 
         self.setWindowTitle("Cornhole Game")
         self.setGeometry(100, 100, 800, 400)
