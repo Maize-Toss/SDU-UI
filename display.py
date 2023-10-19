@@ -140,7 +140,6 @@ class CornholeGameUI(QMainWindow):
         while True:
             if p.poll(1):
                 print(f.stdout.readline())
-            time.sleep(1)
 
         # while True:  # Or: while ser.inWaiting():
         #     # Execute the shell command and capture the result
