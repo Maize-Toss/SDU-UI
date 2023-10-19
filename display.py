@@ -6,6 +6,7 @@ from PyQt5.QtMultimedia import QSound
 import json 
 import serial
 import threading
+import pyinotify
 
 class CornholeGameUI(QMainWindow):
     def __init__(self):
@@ -13,7 +14,17 @@ class CornholeGameUI(QMainWindow):
 
         # Create a Serial object for /dev/rfcomm0
         # self.ser = serial.Serial('/dev/rfcomm0', 9600)  # Adjust the baud rate as needed
-        # Create a new thread and pass the function to it
+        # Create an Inotify instance
+        wm = pyinotify.WatchManager()
+
+        # Define the event we want to watch (IN_MODIFY: File was modified)
+        mask = pyinotify.IN_MODIFY
+
+        # Add a watch to /dev/rfcomm0
+        wm.add_watch("/dev/rfcomm0", mask)
+
+        # Create a Notifier that will call on_rfcomm0_write when the event occurs
+        notifier = pyinotify.Notifier(wm, on_rfcomm0_write)
 
         self.setWindowTitle("Cornhole Game")
         self.setGeometry(100, 100, 800, 400)
@@ -28,10 +39,6 @@ class CornholeGameUI(QMainWindow):
 
         # Create a button
         self.end_round_button = QPushButton("End Round")
-        # self.end_round_button.setMinimumSize(100,100)
-        # button_font = self.end_round_button.font()
-        # button_font.setPointSize(18)  # Set the font size (adjust as needed)
-        # self.end_round_button.setFont(button_font)
         self.enlarge_component(self.end_round_button)
         self.end_round_button.clicked.connect(self.end_round_button_clicked)
 
@@ -107,6 +114,9 @@ class CornholeGameUI(QMainWindow):
         layout_left.addLayout(layout_team1_buttons)
         layout_right.addLayout(layout_team2_buttons)
 
+        monitor_thread = threading.Thread(target=notifier.loop)
+        monitor_thread.start()
+
     def add_beanbags(self, team):
         # Create a grid layout for the bean bags
         beanbag_widget = QWidget(self)
@@ -127,6 +137,10 @@ class CornholeGameUI(QMainWindow):
 
         # return bean bag widget
         return beanbag_widget
+
+    # Function to call when /dev/rfcomm0 is written
+    def on_rfcomm0_write(self, event):
+        print("/dev/rfcomm0 was written to")
 
     def update_scores(self, team1_score, team2_score):
         self.team1_score_label.setText(str(team1_score))
