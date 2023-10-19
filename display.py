@@ -129,7 +129,7 @@ class CornholeGameUI(QMainWindow):
         return beanbag_widget
 
     # Function to call when /dev/rfcomm0 is written
-    def on_rfcomm0_write(self, event):
+    def on_rfcomm0_write(self):
         while self.ser.in_waiting:  # Or: while ser.inWaiting():
             print(self.ser.readline())
 
