@@ -16,7 +16,7 @@ class CornholeGameUI(QMainWindow):
         super().__init__()
 
         # Create a Serial object for /dev/rfcomm0
-        # self.ser = serial.Serial('/dev/rfcomm0', 9600)  # Adjust the baud rate as needed
+        self.ser = serial.Serial('/dev/rfcomm0', 9600)  # Adjust the baud rate as needed
 
         self.setWindowTitle("Cornhole Game")
         self.setGeometry(100, 100, 800, 400)
@@ -129,34 +129,33 @@ class CornholeGameUI(QMainWindow):
 
         # return bean bag widget
         return beanbag_widget
+    
+    def update_cbu_state(self, data):
+            cbu_id = data["cbu"] 
+            battery_level = data["battery"] 
+            team = data["team"] 
+            score = data["score"] 
+
+            # TODO actually update the state
+            print("STATE: ")
+            print(cbu_id)
+            print(battery_level)
+            print(team)
+            print(score)
+
 
     # Function to call when /dev/rfcomm0 is written
     def listen_bluetooth(self):
 
-        # f = subprocess.Popen(['tail','-F',"/dev/rfcomm0"],\
-        # stdout=subprocess.PIPE,stderr=subprocess.PIPE)
-        # p = select.poll()
-        # p.register(f.stdout)
+        while True:
+            while self.ser.in_waiting:
+                result = self.ser.readline()
+                try:
+                    data = json.loads(result)
+                    self.update_cbu_state(data)
+                except:
+                    print(result)
 
-        # while True:
-        #     if p.poll(1):
-        #         print(f.stdout.readline())
-        # runs forever
-        for line in tail("-f", "/var/log/bt.log", _iter=True):
-            print(line)
-
-        # while True:  # Or: while ser.inWaiting():
-        #     # Execute the shell command and capture the result
-        #     # print("try to listen")
-        #     command = "cat /dev/rfcomm0"
-        #     result = subprocess.getoutput(command)
-
-        #     if len(result) > 0:
-        #         print(result)
-        #     # else:
-        #     #     print("no result sleeping")
-
-        #     time.sleep(0.001)
 
     def update_scores(self, team1_score, team2_score):
         self.team1_score_label.setText(str(team1_score))
