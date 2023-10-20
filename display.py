@@ -106,8 +106,23 @@ class CornholeGameUI(QMainWindow):
         layout_left.addLayout(layout_team1_buttons)
         layout_right.addLayout(layout_team2_buttons)
 
-        monitor_thread = threading.Thread(target=self.listen_bluetooth)
-        monitor_thread.start()
+
+        self.stop_event = threading.Event()
+        self.monitor_thread = threading.Thread(target=self.listen_bluetooth)
+        self.monitor_thread.start()
+
+    def closeEvent(self, event):
+        close = QMessageBox()
+        close.setText("You sure?")
+        close.setStandardButtons(QMessageBox.Yes | QMessageBox.Cancel)
+        close = close.exec()
+
+        if close == QMessageBox.Yes:
+            self.stop_event.set()
+            self.monitor_thread.join()
+            event.accept()
+        else:
+            event.ignore()
 
     def add_beanbags(self, team):
         # Create a grid layout for the bean bags
@@ -147,7 +162,7 @@ class CornholeGameUI(QMainWindow):
     # Function to call when /dev/rfcomm0 is written
     def listen_bluetooth(self):
 
-        while True:
+        while self.stop_event.is_set():
             while self.ser.in_waiting:
                 result = self.ser.readline()
                 try:
