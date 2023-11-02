@@ -17,7 +17,7 @@ class CornholeGameUI(QMainWindow):
 
         # Create a Serial object for /dev/rfcomm0
         self.ser0 = serial.Serial('/dev/rfcomm0', 9600)  # Adjust the baud rate as needed
-        # self.ser1 = serial.Serial('/dev/rfcomm1', 9600)  # Adjust the baud rate as needed
+        self.ser1 = serial.Serial('/dev/rfcomm1', 9600)  # Adjust the baud rate as needed
 
         self.setWindowTitle("Cornhole Game")
         self.setGeometry(100, 100, 800, 400)
@@ -104,10 +104,10 @@ class CornholeGameUI(QMainWindow):
         self.stop_event = threading.Event()
 
         self.monitor_thread0 = threading.Thread(target=self.listen_bluetooth0)
-        # self.monitor_thread1 = threading.Thread(target=self.listen_bluetooth1)
+        self.monitor_thread1 = threading.Thread(target=self.listen_bluetooth1)
 
         self.monitor_thread0.start()
-        # self.monitor_thread1.start()
+        self.monitor_thread1.start()
 
     def closeEvent(self, event):
         close = QMessageBox()
@@ -162,31 +162,28 @@ class CornholeGameUI(QMainWindow):
 
     # Function to call when /dev/rfcomm0 is written
     def listen_bluetooth0(self):
-        print("thread started")
+        print("listener 0 started...")
         while not self.stop_event.is_set():
             while self.ser0.in_waiting:
                 result = self.ser0.readline()
                 try:
                     data = json.loads(result)
-                    # self.update_cbu_state(data)
-                    print(data)
+                    self.update_cbu_state(data)
                 except:
                     print(result)
-        print("finished")
 
     # Function to call when /dev/rfcomm1 is written
     def listen_bluetooth1(self):
-
-        # while self.stop_event.is_set():
-            # while self.ser1.in_waiting:
-            #     result = self.ser1.readline()
-            #     print(result)
-            #     try:
-            #         data = json.loads(result)
-            #         self.update_cbu_state(data)
-            #     except:
-            #         print(result)
-        time.sleep(10)
+        print("listener 1 started...")
+        while not self.stop_event.is_set():
+            while self.ser1.in_waiting:
+                result = self.ser1.readline()
+                print(result)
+                try:
+                    data = json.loads(result)
+                    self.update_cbu_state(data)
+                except:
+                    print(result)
 
 
     def update_scores(self, team1_score, team2_score):
