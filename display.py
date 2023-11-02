@@ -17,7 +17,7 @@ class CornholeGameUI(QMainWindow):
 
         # Create a Serial object for /dev/rfcomm0
         self.ser0 = serial.Serial('/dev/rfcomm0', 9600)  # Adjust the baud rate as needed
-        self.ser1 = serial.Serial('/dev/rfcomm1', 9600)  # Adjust the baud rate as needed
+        # self.ser1 = serial.Serial('/dev/rfcomm1', 9600)  # Adjust the baud rate as needed
 
         self.setWindowTitle("Cornhole Game")
         self.setGeometry(100, 100, 800, 400)
@@ -104,10 +104,10 @@ class CornholeGameUI(QMainWindow):
         self.stop_event = threading.Event()
 
         self.monitor_thread0 = threading.Thread(target=self.listen_bluetooth0)
-        self.monitor_thread1 = threading.Thread(target=self.listen_bluetooth1)
+        # self.monitor_thread1 = threading.Thread(target=self.listen_bluetooth1)
 
         self.monitor_thread0.start()
-        self.monitor_thread1.start()
+        # self.monitor_thread1.start()
 
     def closeEvent(self, event):
         close = QMessageBox()
@@ -119,7 +119,7 @@ class CornholeGameUI(QMainWindow):
             self.stop_event.set()
 
             self.monitor_thread0.join()
-            self.monitor_thread1.join()
+            # self.monitor_thread1.join()
             
             event.accept()
         else:
