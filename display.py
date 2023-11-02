@@ -250,9 +250,9 @@ class CornholeGameUI(QMainWindow):
     def write_to_rfcomm(self, data, cbu):
         # send data over bluetooth
         print("Sending data:")
-        print(encoded_bytes)
         # Encode the Unicode string to bytes using UTF-8 encoding
         encoded_bytes = (data + "\n").encode('utf-8')
+        print(encoded_bytes)
 
         if cbu == 0 or cbu == 2:
             # with open("/dev/rfcomm0",'w') as bt:
