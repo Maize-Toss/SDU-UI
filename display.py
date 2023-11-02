@@ -16,7 +16,9 @@ class CornholeGameUI(QMainWindow):
         super().__init__()
 
         # Create a Serial object for /dev/rfcomm0
-        self.ser = serial.Serial('/dev/rfcomm0', 9600)  # Adjust the baud rate as needed
+        self.ser = []
+        self.ser.append(serial.Serial('/dev/rfcomm0', 9600))  # Adjust the baud rate as needed
+        self.ser.append(serial.Serial('/dev/rfcomm1', 9600))  # Adjust the baud rate as needed
 
         self.setWindowTitle("Cornhole Game")
         self.setGeometry(100, 100, 800, 400)
@@ -107,9 +109,13 @@ class CornholeGameUI(QMainWindow):
         layout_right.addLayout(layout_team2_buttons)
 
 
-        self.stop_event = threading.Event()
-        self.monitor_thread = threading.Thread(target=self.listen_bluetooth)
-        self.monitor_thread.start()
+        self.stop_event0 = threading.Event()
+        self.monitor_thread0 = threading.Thread(target=self.listen_bluetooth, args=(0))
+        self.monitor_thread0.start()
+
+        self.stop_event1 = threading.Event()
+        self.monitor_thread1 = threading.Thread(target=self.listen_bluetooth, args=(1))
+        self.monitor_thread1.start()
 
     def closeEvent(self, event):
         close = QMessageBox()
@@ -118,8 +124,12 @@ class CornholeGameUI(QMainWindow):
         close = close.exec()
 
         if close == QMessageBox.Yes:
-            self.stop_event.set()
-            self.monitor_thread.join()
+            self.stop_event0.set()
+            self.stop_event1.set()
+
+            self.monitor_thread0.join()
+            self.monitor_thread1.join()
+            
             event.accept()
         else:
             event.ignore()
@@ -160,11 +170,11 @@ class CornholeGameUI(QMainWindow):
 
 
     # Function to call when /dev/rfcomm0 is written
-    def listen_bluetooth(self):
+    def listen_bluetooth(self, i):
 
         while self.stop_event.is_set():
-            while self.ser.in_waiting:
-                result = self.ser.readline()
+            while self.ser[i].in_waiting:
+                result = self.ser[i].readline()
                 try:
                     data = json.loads(result)
                     self.update_cbu_state(data)
@@ -244,11 +254,13 @@ class CornholeGameUI(QMainWindow):
         print("Sending data:")
         print(data + "\n")
         if cbu == 0 or cbu == 2:
-            with open("/dev/rfcomm0",'w') as bt:
-                bt.write(data + "\n")
+            # with open("/dev/rfcomm0",'w') as bt:
+            #     bt.write(data + "\n")
+            self.ser[0].write(data + "\n")
         elif cbu == 1 or cbu == 2:
-            with open("/dev/rfcomm1",'w') as bt:
-                bt.write(data + "\n")
+            # with open("/dev/rfcomm1",'w') as bt:
+            #     bt.write(data + "\n")
+            self.ser[1].write(data + "\n")
         else:
             print("Device not recognized")
 
