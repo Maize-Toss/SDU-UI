@@ -59,9 +59,6 @@ class CornholeGameUI(QMainWindow):
 
 
         # Create labels for displaying scores
-        # self.team1_label = QLabel("Team 1")
-        # self.team1_label.setAlignment(Qt.AlignCenter)
-        # self.team1_label.setStyleSheet("font-size: 48px; color: red;")
         self.team1_score_label = QLabel("0")
         self.team1_score_label.setAlignment(Qt.AlignCenter)
         self.team1_score_label.setStyleSheet("font-size: 200px; color: red;")
@@ -70,9 +67,6 @@ class CornholeGameUI(QMainWindow):
         self.vs_label.setAlignment(Qt.AlignCenter)
         self.vs_label.setStyleSheet("font-size: 100px; color: black;")
 
-        # self.team2_label = QLabel("Team 2")
-        # self.team2_label.setAlignment(Qt.AlignCenter)
-        # self.team2_label.setStyleSheet("font-size: 48px; color: blue;")
         self.team2_score_label = QLabel("0")
         self.team2_score_label.setAlignment(Qt.AlignCenter)
         self.team2_score_label.setStyleSheet("font-size: 200px; color: blue;")
@@ -175,7 +169,8 @@ class CornholeGameUI(QMainWindow):
                 print(result)
                 try:
                     data = json.loads(result)
-                    self.update_cbu_state(data)
+                    # self.update_cbu_state(data)
+                    print(data)
                 except:
                     print(result)
 
