@@ -173,6 +173,7 @@ class CornholeGameUI(QMainWindow):
                     print(data)
                 except:
                     print(result)
+        print("finished")
 
     # Function to call when /dev/rfcomm1 is written
     def listen_bluetooth1(self):
