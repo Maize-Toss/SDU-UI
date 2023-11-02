@@ -173,6 +173,7 @@ class CornholeGameUI(QMainWindow):
         while self.stop_event.is_set():
             while self.ser[i].in_waiting:
                 result = self.ser[i].readline()
+                print(result)
                 try:
                     data = json.loads(result)
                     self.update_cbu_state(data)
