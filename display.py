@@ -102,12 +102,12 @@ class CornholeGameUI(QMainWindow):
         layout_right.addLayout(layout_team2_buttons)
 
         self.stop_event = threading.Event()
-        self.monitor_thread = []
-        self.monitor_thread.append(threading.Thread(target=self.listen_bluetooth0))
-        self.monitor_thread.append(threading.Thread(target=self.listen_bluetooth1))
 
-        self.monitor_thread[0].start()
-        self.monitor_thread[1].start()
+        self.monitor_thread0 = threading.Thread(target=self.listen_bluetooth0)
+        self.monitor_thread1 = threading.Thread(target=self.listen_bluetooth1)
+
+        self.monitor_thread0.start()
+        self.monitor_thread1.start()
 
     def closeEvent(self, event):
         close = QMessageBox()
