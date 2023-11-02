@@ -164,7 +164,6 @@ class CornholeGameUI(QMainWindow):
     def listen_bluetooth0(self):
         print("thread started")
         while not self.stop_event.is_set():
-            print("wombo wombo")
             while self.ser0.in_waiting:
                 result = self.ser0.readline()
                 try:
