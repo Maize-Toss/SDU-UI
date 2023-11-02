@@ -162,9 +162,10 @@ class CornholeGameUI(QMainWindow):
 
     # Function to call when /dev/rfcomm0 is written
     def listen_bluetooth0(self):
-
+        print("thread started")
         while self.stop_event.is_set():
             while self.ser0.in_waiting:
+                print("incoming data...")
                 result = self.ser0.readline()
                 try:
                     data = json.loads(result)
