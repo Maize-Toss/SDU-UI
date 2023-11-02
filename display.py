@@ -178,14 +178,15 @@ class CornholeGameUI(QMainWindow):
     def listen_bluetooth1(self):
 
         while self.stop_event.is_set():
-            while self.ser1.in_waiting:
-                result = self.ser1.readline()
-                print(result)
-                try:
-                    data = json.loads(result)
-                    self.update_cbu_state(data)
-                except:
-                    print(result)
+            # while self.ser1.in_waiting:
+            #     result = self.ser1.readline()
+            #     print(result)
+            #     try:
+            #         data = json.loads(result)
+            #         self.update_cbu_state(data)
+            #     except:
+            #         print(result)
+            time.sleep(10)
 
 
     def update_scores(self, team1_score, team2_score):
