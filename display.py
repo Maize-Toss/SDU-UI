@@ -110,8 +110,8 @@ class CornholeGameUI(QMainWindow):
 
         self.stop_event = threading.Event()
         self.monitor_thread = []
-        self.monitor_thread.append(threading.Thread(target=self.listen_bluetooth, args=(0)))
-        self.monitor_thread.append(threading.Thread(target=self.listen_bluetooth, args=(1)))
+        self.monitor_thread.append(threading.Thread(target=self.listen_bluetooth, args=(0,)))
+        self.monitor_thread.append(threading.Thread(target=self.listen_bluetooth, args=(1,)))
 
         self.monitor_thread[0].start()
         self.monitor_thread[1].start()
