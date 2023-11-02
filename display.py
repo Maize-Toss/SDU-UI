@@ -118,8 +118,8 @@ class CornholeGameUI(QMainWindow):
         if close == QMessageBox.Yes:
             self.stop_event.set()
 
-            self.monitor_thread[0].join()
-            self.monitor_thread[1].join()
+            self.monitor_thread0.join()
+            self.monitor_thread1.join()
             
             event.accept()
         else:
@@ -166,7 +166,6 @@ class CornholeGameUI(QMainWindow):
         while self.stop_event.is_set():
             while self.ser0.in_waiting:
                 result = self.ser0.readline()
-                print(result)
                 try:
                     data = json.loads(result)
                     # self.update_cbu_state(data)
@@ -177,7 +176,7 @@ class CornholeGameUI(QMainWindow):
     # Function to call when /dev/rfcomm1 is written
     def listen_bluetooth1(self):
 
-        while self.stop_event.is_set():
+        # while self.stop_event.is_set():
             # while self.ser1.in_waiting:
             #     result = self.ser1.readline()
             #     print(result)
@@ -186,7 +185,7 @@ class CornholeGameUI(QMainWindow):
             #         self.update_cbu_state(data)
             #     except:
             #         print(result)
-            time.sleep(10)
+        time.sleep(10)
 
 
     def update_scores(self, team1_score, team2_score):
