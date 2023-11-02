@@ -163,7 +163,7 @@ class CornholeGameUI(QMainWindow):
     # Function to call when /dev/rfcomm0 is written
     def listen_bluetooth0(self):
         print("thread started")
-        while self.stop_event.is_set():
+        while not self.stop_event.is_set():
             print("wombo wombo")
             while self.ser0.in_waiting:
                 result = self.ser0.readline()
