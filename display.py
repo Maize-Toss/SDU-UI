@@ -260,11 +260,15 @@ class CornholeGameUI(QMainWindow):
         print(send_data)
 
         if cbu == 0 or cbu == 2:
+            print("to cbu 0")
             with open("/dev/rfcomm0",'w') as bt:
                 bt.write(send_data)
+
         if cbu == 1 or cbu == 2:
+            print("to cbu 1")
             with open("/dev/rfcomm1",'w') as bt:
                 bt.write(send_data)
+
         if cbu > 2 and cbu < 0:
             print("Device not recognized")
 
