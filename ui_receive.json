@@ -1,6 +1,6 @@
 {
     "battery": 10.56,   // percentage of battery 
-    "team": 0,          // team id
-    "score": 3          // raw score
+    "team1d": 0,        // team 0 delta
+    "team2d": 3         // team 1 delta
 }
   

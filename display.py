@@ -189,23 +189,24 @@ class CornholeGameUI(QMainWindow):
     
     def update_display_state(self, data, cbu_id):
             battery_level = data["battery"] 
-            team = data["team"] 
-            score = data["score"] 
+            team1d = int(data["team1d"])
+            team2d = int(data["team2d"]) 
 
             print("STATE: ")
             print(battery_level)
-            print(team)
-            print(score)
+            print(team1d)
+            print(team2d)
 
             # check input
-            assert (team == 0 or team == 1)
-            assert (cbu_id == 0 or cbu_id == 1)
+            assert (team1d >= 0 or team2d >= 0)
 
             # update the state
-            if team == 0:
-                self.team1_score_label.setText(str(score))
-            elif team == 1:
-                self.team2_score_label.setText(str(score))
+            if team1d > 0:
+                new_score = int(self.team1_score_label.text()) + team1d
+                self.team1_score_label.setText(str(new_score))
+            elif team2d > 1:
+                new_score = int(self.team2_score_label.text()) + team2d
+                self.team2_score_label.setText(str(new_score))
 
             # update battery level
             self.update_battery_level(cbu_id, float(battery_level))
