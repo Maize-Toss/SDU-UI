@@ -63,6 +63,16 @@ class CornholeGameUI(QMainWindow):
         self.team1_score_label.setAlignment(Qt.AlignCenter)
         self.team1_score_label.setStyleSheet("font-size: 200px; color: red;")
 
+        # Create labels for displaying battery levels
+        self.battery_cbu0 = QLabel("Battery 0: 100%")
+        self.battery_cbu1 = QLabel("Battery 1: 100%")
+
+        # Set the alignment and styles for battery labels
+        self.battery_cbu0.setAlignment(Qt.AlignCenter)
+        self.battery_cbu0.setStyleSheet("font-size: 20px; color: green;")
+        self.battery_cbu1.setAlignment(Qt.AlignCenter)
+        self.battery_cbu1.setStyleSheet("font-size: 20px; color: green;")
+
         self.vs_label = QLabel("vs")
         self.vs_label.setAlignment(Qt.AlignCenter)
         self.vs_label.setStyleSheet("font-size: 100px; color: black;")
@@ -74,6 +84,9 @@ class CornholeGameUI(QMainWindow):
         # layout_left.addWidget(self.team1_label)
         layout_left.addWidget(self.team1_score_label)
 
+        # Add the battery labels to the central layout above the "vs" label
+        layout_center.addWidget(self.battery_cbu0)
+        layout_center.addWidget(self.battery_cbu1)
         layout_center.addWidget(self.vs_label)
         # Add the button to the layout
         layout_center.addWidget(self.end_round_button)
@@ -146,18 +159,31 @@ class CornholeGameUI(QMainWindow):
         # return bean bag widget
         return beanbag_widget
     
-    def update_cbu_state(self, data):
-            cbu_id = data["cbu"] 
+    def update_cbu_state(self, data, cbu_id):
             battery_level = data["battery"] 
             team = data["team"] 
             score = data["score"] 
 
-            # TODO actually update the state
-            print("STATE: ")
-            print(cbu_id)
-            print(battery_level)
-            print(team)
-            print(score)
+            # check input
+            assert (team == 0 or team == 1)
+            assert (cbu_id == 0 or cbu_id == 1)
+
+            # update the state
+            if team == 0:
+                self.team1_score_label.setText(str(score))
+            elif team == 1:
+                self.team2_score_label.setText(str(score))
+
+            # update battery level
+            if cbu_id == 0:
+                self.battery_cbu0.setText(str(battery_level))
+            elif cbu_id == 1:
+                self.battery_cbu1.setText(str(battery_level))
+    
+            # print("STATE: ")
+            # print(battery_level)
+            # print(team)
+            # print(score)
 
 
     # Function to call when /dev/rfcomm0 is written
@@ -168,7 +194,7 @@ class CornholeGameUI(QMainWindow):
                 result = self.ser0.readline()
                 try:
                     data = json.loads(result)
-                    self.update_cbu_state(data)
+                    self.update_cbu_state(data, 0)
                 except:
                     print(result)
 
@@ -181,7 +207,7 @@ class CornholeGameUI(QMainWindow):
                 print(result)
                 try:
                     data = json.loads(result)
-                    self.update_cbu_state(data)
+                    self.update_cbu_state(data, 1)
                 except:
                     print(result)
 
