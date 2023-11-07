@@ -176,7 +176,7 @@ class CornholeGameUI(QMainWindow):
         print(color)
 
         self.battery_widget.set_battery_level(battery_level)
-        
+
         if cbu_id == 0:
             self.battery_cbu0.setText(f"Battery 0: {battery_level}%")
             self.battery_cbu0.setStyleSheet(f"font-size: 20px; font-weight: bold; color: {color};")
