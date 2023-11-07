@@ -160,6 +160,7 @@ class CornholeGameUI(QMainWindow):
         return beanbag_widget
     
     def update_battery_level(self, cbu_id, battery_level):
+        print("update battery " + str(cbu_id) + " to " + str(battery_level))
         color = ""
         if battery_level >= 70:
             color = "green"
