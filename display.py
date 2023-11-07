@@ -246,7 +246,7 @@ class CornholeGameUI(QMainWindow):
         self.write_to_rfcomm(json_object, cbu)
     
     def end_round_button_clicked(self):
-        QSound.play("bowling_strike.wav")  # Replace "audio.wav" with the path to your sound file
+        QSound.play("wombo.wav")  # Replace "audio.wav" with the path to your sound file
 
         # message_box = QMessageBox()
         # message_box.setWindowTitle("Maize Toss")
