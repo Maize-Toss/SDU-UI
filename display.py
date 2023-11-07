@@ -164,6 +164,11 @@ class CornholeGameUI(QMainWindow):
             team = data["team"] 
             score = data["score"] 
 
+            print("STATE: ")
+            print(battery_level)
+            print(team)
+            print(score)
+
             # check input
             assert (team == 0 or team == 1)
             assert (cbu_id == 0 or cbu_id == 1)
@@ -179,11 +184,6 @@ class CornholeGameUI(QMainWindow):
                 self.battery_cbu0.setText(str(battery_level))
             elif cbu_id == 1:
                 self.battery_cbu1.setText(str(battery_level))
-    
-            # print("STATE: ")
-            # print(battery_level)
-            # print(team)
-            # print(score)
 
 
     # Function to call when /dev/rfcomm0 is written
