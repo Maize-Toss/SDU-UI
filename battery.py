@@ -22,11 +22,11 @@ class BatteryIndicator(QWidget):
         painter.setRenderHint(QPainter.Antialiasing)
 
         # Define colors for different battery levels
-        if self.battery_level >= 75:
+        if self.battery_level > 75:
             color = QColor(0, 255, 0)  # Green
-        elif self.battery_level >= 50:
+        elif self.battery_level > 50:
             color = QColor(255, 255, 0)  # Yellow
-        elif self.battery_level >= 25:
+        elif self.battery_level > 25:
             color = QColor(255, 165, 0)  # Orange
         else:
             color = QColor(255, 0, 0)  # Red
