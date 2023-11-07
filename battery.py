@@ -33,7 +33,7 @@ class BatteryIndicator(QWidget):
         painter.setBrush(color)
 
         # Calculate the height of each bar based on battery level
-        bar_height = self.height() / self.bars
+        bar_height = self.height() // self.bars
 
         # Draw battery bars
         for i in range(self.bars - self.battery_level // 25):
