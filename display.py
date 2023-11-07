@@ -63,15 +63,15 @@ class CornholeGameUI(QMainWindow):
         self.team1_score_label.setAlignment(Qt.AlignCenter)
         self.team1_score_label.setStyleSheet("font-size: 200px; color: red;")
 
-        # # Create labels for displaying battery levels
-        # self.battery_cbu0 = QLabel("Battery 0: 100%")
-        # self.battery_cbu1 = QLabel("Battery 1: 100%")
+        # Create labels for displaying battery levels
+        self.battery_cbu0 = QLabel("Battery 0: 100%")
+        self.battery_cbu1 = QLabel("Battery 1: 100%")
 
-        # # Set the alignment and styles for battery labels
-        # self.battery_cbu0.setAlignment(Qt.AlignCenter)
-        # self.battery_cbu0.setStyleSheet("font-size: 20px; font-weight: bold; color: green;")
-        # self.battery_cbu1.setAlignment(Qt.AlignCenter)
-        # self.battery_cbu1.setStyleSheet("font-size: 20px; font-weight: bold; color: green;")
+        # Set the alignment and styles for battery labels
+        self.battery_cbu0.setAlignment(Qt.AlignCenter)
+        self.battery_cbu0.setStyleSheet("font-size: 20px; font-weight: bold; color: green;")
+        self.battery_cbu1.setAlignment(Qt.AlignCenter)
+        self.battery_cbu1.setStyleSheet("font-size: 20px; font-weight: bold; color: green;")
 
         self.battery_widget0 = bat.BatteryIndicator(battery_level=100, cbu=0)
         self.battery_widget1 = bat.BatteryIndicator(battery_level=100, cbu=1)
@@ -89,9 +89,9 @@ class CornholeGameUI(QMainWindow):
         layout_left.addWidget(self.team1_score_label)
 
         # Add the battery labels to the central layout above the "vs" label
-        # layout_center.addWidget(self.battery_cbu0)
+        layout_center.addWidget(self.battery_cbu0)
         layout_center.addWidget(self.battery_widget0)
-        # layout_center.addWidget(self.battery_cbu1)
+        layout_center.addWidget(self.battery_cbu1)
         layout_center.addWidget(self.battery_widget1)
 
         layout_center.addWidget(self.vs_label)
