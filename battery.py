@@ -38,5 +38,5 @@ class BatteryIndicator(QWidget):
 
         # Draw battery bars
         for i in range(max(math.ceil(self.battery_level // 25),1)):
-            rect = QRect(i * bar_width, 10, bar_width, 20)  # Adjust the position and size for horizontal bars
+            rect = QRect(self.width() - (i + 1) * bar_width, 20, bar_width, 20)
             painter.drawRect(rect)
