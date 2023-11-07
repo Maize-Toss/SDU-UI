@@ -73,7 +73,7 @@ class CornholeGameUI(QMainWindow):
         self.battery_cbu1.setAlignment(Qt.AlignCenter)
         self.battery_cbu1.setStyleSheet("font-size: 20px; font-weight: bold; color: green;")
 
-        self.battery_widget = bat.BatteryIndicator(battery_level=75)
+        self.battery_widget = bat.BatteryIndicator(battery_level=100)
         # layout.addWidget(battery_widget)
 
         self.vs_label = QLabel("vs")
@@ -175,7 +175,7 @@ class CornholeGameUI(QMainWindow):
 
         print(color)
 
-        self.battery_widget.set_battery_level(battery_level)
+        self.battery_widget.set_battery_level(int(battery_level))
 
         if cbu_id == 0:
             self.battery_cbu0.setText(f"Battery 0: {battery_level}%")
