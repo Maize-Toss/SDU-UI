@@ -1,6 +1,6 @@
 from PyQt5.QtWidgets import QWidget, QVBoxLayout, QLabel
 from PyQt5.QtGui import QPainter, QColor
-from PyQt5.QtCore import Qt
+from PyQt5.QtCore import Qt, QRect
 
 class BatteryIndicator(QWidget):
     def __init__(self, battery_level=100):
@@ -37,4 +37,5 @@ class BatteryIndicator(QWidget):
 
         # Draw battery bars
         for i in range(self.bars - self.battery_level // 25):
-            painter.drawRect(10, i * bar_height, 20, bar_height)
+            rect = QRect(10, i * bar_height, 20, bar_height)
+            painter.drawRect(rect)
