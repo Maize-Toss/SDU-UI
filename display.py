@@ -159,7 +159,7 @@ class CornholeGameUI(QMainWindow):
         # return bean bag widget
         return beanbag_widget
     
-    def update_cbu_state(self, data, cbu_id):
+    def update_display_state(self, data, cbu_id):
             battery_level = data["battery"] 
             team = data["team"] 
             score = data["score"] 
@@ -194,7 +194,7 @@ class CornholeGameUI(QMainWindow):
                 result = self.ser0.readline()
                 try:
                     data = json.loads(result)
-                    self.update_cbu_state(data, 0)
+                    self.update_display_state(data, 0)
                 except:
                     print(result)
 
@@ -207,7 +207,7 @@ class CornholeGameUI(QMainWindow):
                 print(result)
                 try:
                     data = json.loads(result)
-                    self.update_cbu_state(data, 1)
+                    self.update_display_state(data, 1)
                 except:
                     print(result)
 
