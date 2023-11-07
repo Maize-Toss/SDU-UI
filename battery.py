@@ -4,13 +4,18 @@ from PyQt5.QtCore import Qt, QRect
 import math
 
 class BatteryIndicator(QWidget):
-    def __init__(self, battery_level=100):
+    def __init__(self, battery_level=100, cbu=0):
         super().__init__()
 
         self.battery_level = battery_level
+        self,cbu = cbu
         self.bars = 4
 
-        self.setFixedSize(40, 80)
+        self.setFixedSize(120, 60)  # Adjust the size for both the bars and label
+
+        # Create a QLabel for displaying the battery level text
+        self.label = QLabel(f'Battery {self.cbu}: {self.battery_level}%')
+        self.label.setAlignment(Qt.AlignCenter)
 
     def set_battery_level(self, battery_level):
         if 0 <= battery_level <= 100:
@@ -44,3 +49,7 @@ class BatteryIndicator(QWidget):
         for i in range(blocks):
             rect = QRect(self.width() - (i + 1) * bar_width, 20, bar_width, 20)
             painter.drawRect(rect)
+        
+        # Update the label text and color
+        self.label.setText(f'Battery: {self.battery_level}%')
+        self.label.setStyleSheet(f'font-size: 20px; font-weight: bold; color: {color.name()};')
