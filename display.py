@@ -169,12 +169,14 @@ class CornholeGameUI(QMainWindow):
         else:
             color = "red"
 
+        print(color)
+
         if cbu_id == 0:
-            self.battery_cbu0.setText("Battery 0: " + str(battery_level) + "%")
-            self.battery_cbu0.setStyleSheet("font-size: 20px; color: " + color +";")
+            self.battery_cbu0.setText(f"Battery 0: {battery_level}%")
+            self.battery_cbu0.setStyleSheet(f"font-size: 20px; color: {color};")
         elif cbu_id == 1:
-            self.battery_cbu1.setText("Battery 1: " + str(battery_level) + "%")
-            self.battery_cbu1.setStyleSheet("font-size: 20px; color: " + color + ";")
+            self.battery_cbu1.setText(f"Battery 1: {battery_level}%")
+            self.battery_cbu1.setStyleSheet(f"font-size: 20px; color: {color};")
 
         return 0
     
