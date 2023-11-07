@@ -8,7 +8,7 @@ class BatteryIndicator(QWidget):
         super().__init__()
 
         self.battery_level = battery_level
-        self,cbu = cbu
+        self.cbu = cbu
         self.bars = 4
 
         self.setFixedSize(120, 60)  # Adjust the size for both the bars and label
