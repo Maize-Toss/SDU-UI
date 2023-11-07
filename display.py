@@ -313,7 +313,6 @@ class CornholeGameUI(QMainWindow):
         if cbu == 0 or cbu == 2:
             print("to cbu 0")
             print(len(send_data))
-            print(send_data)
             with open("/dev/rfcomm0",'w') as bt:
                 bt.write(send_data)
 
