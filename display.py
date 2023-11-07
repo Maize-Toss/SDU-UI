@@ -260,7 +260,7 @@ class CornholeGameUI(QMainWindow):
         send_thread.start()
 
     def update_score(self, team, value):
-        send_val = True
+        send_val = False # used for debugging
         if team == 1:
             current_score = int(self.team1_score_label.text())
             new_score = current_score + value
