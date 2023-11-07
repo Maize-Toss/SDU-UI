@@ -159,6 +159,24 @@ class CornholeGameUI(QMainWindow):
         # return bean bag widget
         return beanbag_widget
     
+    def update_battery_level(self, cbu_id, battery_level):
+        color = ""
+        if battery_level >= 70:
+            color = "green"
+        elif battery_level < 70 and battery_level > 20:
+            color = "yellow"
+        else:
+            color = "red"
+
+        if cbu_id == 0:
+            self.battery_cbu0.setText("Battery 0: " + str(battery_level) + "%")
+            self.battery_cbu0.setStyleSheet("font-size: 20px; color: " + color +";")
+        elif cbu_id == 1:
+            self.battery_cbu1.setText("Battery 1: " + str(battery_level) + "%")
+            self.battery_cbu1.setStyleSheet("font-size: 20px; color: " + color + ";")
+
+        return 0
+    
     def update_display_state(self, data, cbu_id):
             battery_level = data["battery"] 
             team = data["team"] 
@@ -180,11 +198,7 @@ class CornholeGameUI(QMainWindow):
                 self.team2_score_label.setText(str(score))
 
             # update battery level
-            if cbu_id == 0:
-                self.battery_cbu0.setText(str(battery_level))
-            elif cbu_id == 1:
-                self.battery_cbu1.setText(str(battery_level))
-
+            self.update_battery_level(cbu_id, battery_level)
 
     # Function to call when /dev/rfcomm0 is written
     def listen_bluetooth0(self):
