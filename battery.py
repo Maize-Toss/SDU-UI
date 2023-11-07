@@ -23,7 +23,7 @@ class BatteryIndicator(QWidget):
         painter.setRenderHint(QPainter.Antialiasing)
 
         # Draw a box around the battery indicator
-        border_rect = QRect(10, 10, self.width() - 20, 40)
+        border_rect = QRect(0, 20, self.width(), 20)
         painter.drawRect(border_rect)
 
         # Define colors for different battery levels
