@@ -22,21 +22,25 @@ class BatteryIndicator(QWidget):
         painter = QPainter(self)
         painter.setRenderHint(QPainter.Antialiasing)
 
+        # Draw a box around the battery indicator
+        border_rect = QRect(10, 10, self.width() - 20, 40)
+        painter.drawRect(border_rect)
+
         # Define colors for different battery levels
         if self.battery_level > 75:
-            color = QColor(0, 255, 0)  # Green
+            self.color = QColor(0, 255, 0)  # Green
             blocks = 4
         elif self.battery_level > 50:
-            color = QColor(255, 255, 0)  # Yellow
+            self.color = QColor(255, 255, 0)  # Yellow
             blocks = 3
         elif self.battery_level > 25:
-            color = QColor(255, 165, 0)  # Orange
+            self.color = QColor(255, 165, 0)  # Orange
             blocks = 2
         else:
-            color = QColor(255, 0, 0)  # Red
+            self.color = QColor(255, 0, 0)  # Red
             blocks = 1
 
-        painter.setBrush(color)
+        painter.setBrush(self.color)
 
         # Calculate the width of each bar based on battery level
         bar_width = self.width() // self.bars
