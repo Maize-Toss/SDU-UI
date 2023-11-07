@@ -201,7 +201,7 @@ class CornholeGameUI(QMainWindow):
                 self.team2_score_label.setText(str(score))
 
             # update battery level
-            self.update_battery_level(cbu_id, battery_level)
+            self.update_battery_level(cbu_id, float(battery_level))
 
     # Function to call when /dev/rfcomm0 is written
     def listen_bluetooth0(self):
