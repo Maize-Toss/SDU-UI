@@ -9,7 +9,7 @@ import threading
 import subprocess
 import time
 import select
-from sh import tail
+import battery as bat
 
 class CornholeGameUI(QMainWindow):
     def __init__(self):
@@ -69,9 +69,12 @@ class CornholeGameUI(QMainWindow):
 
         # Set the alignment and styles for battery labels
         self.battery_cbu0.setAlignment(Qt.AlignCenter)
-        self.battery_cbu0.setStyleSheet("font-size: 20px; color: green;")
+        self.battery_cbu0.setStyleSheet("font-size: 20px; font-weight: bold; color: green;")
         self.battery_cbu1.setAlignment(Qt.AlignCenter)
-        self.battery_cbu1.setStyleSheet("font-size: 20px; color: green;")
+        self.battery_cbu1.setStyleSheet("font-size: 20px; font-weight: bold; color: green;")
+
+        self.battery_widget = bat.BatteryIndicator(battery_level=75)
+        # layout.addWidget(battery_widget)
 
         self.vs_label = QLabel("vs")
         self.vs_label.setAlignment(Qt.AlignCenter)
@@ -87,6 +90,7 @@ class CornholeGameUI(QMainWindow):
         # Add the battery labels to the central layout above the "vs" label
         layout_center.addWidget(self.battery_cbu0)
         layout_center.addWidget(self.battery_cbu1)
+        layout_center.addWidget(self.battery_widget)
         layout_center.addWidget(self.vs_label)
         # Add the button to the layout
         layout_center.addWidget(self.end_round_button)
@@ -165,18 +169,20 @@ class CornholeGameUI(QMainWindow):
         if battery_level >= 70:
             color = "green"
         elif battery_level < 70 and battery_level > 20:
-            color = "yellow"
+            color = "orange"
         else:
             color = "red"
 
         print(color)
 
+        self.battery_widget.set_battery_level(battery_level)
+        
         if cbu_id == 0:
             self.battery_cbu0.setText(f"Battery 0: {battery_level}%")
-            self.battery_cbu0.setStyleSheet(f"font-size: 20px; color: {color};")
+            self.battery_cbu0.setStyleSheet(f"font-size: 20px; font-weight: bold; color: {color};")
         elif cbu_id == 1:
             self.battery_cbu1.setText(f"Battery 1: {battery_level}%")
-            self.battery_cbu1.setStyleSheet(f"font-size: 20px; color: {color};")
+            self.battery_cbu1.setStyleSheet(f"font-size: 20px; font-weight: bold; color: {color};")
 
         return 0
     
