@@ -219,6 +219,7 @@ class CornholeGameUI(QMainWindow):
                 result = self.ser0.readline()
                 try:
                     data = json.loads(result)
+                    print(data)
                     self.update_display_state(data, 0)
                 except:
                     print(result)
