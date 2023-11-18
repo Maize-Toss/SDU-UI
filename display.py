@@ -216,7 +216,7 @@ class CornholeGameUI(QMainWindow):
         print("listener 0 started...")
         while not self.stop_event.is_set():
             while self.ser0.in_waiting:
-                result = str(self.ser0.readline())
+                result = self.ser0.readline().decode('ascii')
                 try:
                     data = json.loads(result)
                     print(data)
