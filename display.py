@@ -218,10 +218,13 @@ class CornholeGameUI(QMainWindow):
             while self.ser0.in_waiting:
                 result = self.ser0.readline().decode('ascii')
                 try:
+                    print("before try")
                     data = json.loads(result)
+                    print("loaded")
                     print(data)
                     self.update_display_state(data, 0)
                 except:
+                    print("after try")
                     print(result)
 
     # Function to call when /dev/rfcomm1 is written
