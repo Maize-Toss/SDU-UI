@@ -304,11 +304,16 @@ class CornholeGameUI(QMainWindow):
         }
         return data
     
+    def pad_packet(self, send_data):
+        msg_len = len(send_data)
+        padding = 256 - msg_len
+
+        return send_data + "p"*padding
+    
     def write_to_rfcomm(self, data, cbu):
         # send data over bluetooth
         print("Sending data:")
-        send_data = data + "\n"
-        print(send_data)
+        send_data = self.pad_packet(data)
 
         if cbu == 0 or cbu == 2:
             print("to cbu 0")
