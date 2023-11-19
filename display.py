@@ -90,9 +90,9 @@ class CornholeGameUI(QMainWindow):
 
         # Add the battery labels to the central layout above the "vs" label
         layout_center.addWidget(self.battery_cbu0)
-        layout_center.addWidget(self.battery_widget0)
+        layout_center.addWidget(self.battery_widget0, alignment=Qt.AlignCenter)
         layout_center.addWidget(self.battery_cbu1)
-        layout_center.addWidget(self.battery_widget1)
+        layout_center.addWidget(self.battery_widget1, alignment=Qt.AlignCenter)
 
         layout_center.addWidget(self.vs_label)
         # Add the button to the layout
