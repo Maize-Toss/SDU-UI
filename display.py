@@ -230,6 +230,7 @@ class CornholeGameUI(QMainWindow):
                         print("Exception:", e)
             except Exception as e:
                 print("Serial port error:", e)
+                return
 
     # Function to call when /dev/rfcomm1 is written
     def listen_bluetooth1(self):
