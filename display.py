@@ -215,35 +215,41 @@ class CornholeGameUI(QMainWindow):
     def listen_bluetooth0(self):
         print("listener 0 started...")
         while not self.stop_event.is_set():
-            while self.ser0.in_waiting:
-                result = self.ser0.readline().decode('utf-8').replace('\x00', '').strip()
-                print("Original data:", repr(result))
-                print("String length:", len(result))
-                print("check")
-                try:
-                    print("before try")
-                    data = json.loads(result)
-                    print("loaded")
-                    print(data)
-                    self.update_display_state(data, 0)
-                except json.JSONDecodeError as e:
-                    print("JSON decoding error:", e)
-                    print("Original data:", result)
-                except Exception as e:
-                    print("Exception:", e)
+            try:
+                while self.ser0.in_waiting:
+                    result = self.ser0.readline().decode('utf-8').replace('\x00', '').strip()
+                    print("Original data:", repr(result))
+                    print("String length:", len(result))
+                    try:
+                        data = json.loads(result)
+                        self.update_display_state(data, 0)
+                    except json.JSONDecodeError as e:
+                        print("JSON decoding error:", e)
+                        print("Original data:", result)
+                    except Exception as e:
+                        print("Exception:", e)
+            except Exception as e:
+                print("Serial port error:", e)
 
     # Function to call when /dev/rfcomm1 is written
     def listen_bluetooth1(self):
         print("listener 1 started...")
         while not self.stop_event.is_set():
-            while self.ser1.in_waiting:
-                result = self.ser1.readline()
-                print(result)
-                try:
-                    data = json.loads(result)
-                    self.update_display_state(data, 1)
-                except:
-                    print(result)
+            try:
+                while self.ser1.in_waiting:
+                    result = self.ser1.readline().decode('utf-8').replace('\x00', '').strip()
+                    print("Original data:", repr(result))
+                    print("String length:", len(result))
+                    try:
+                        data = json.loads(result)
+                        self.update_display_state(data, 0)
+                    except json.JSONDecodeError as e:
+                        print("JSON decoding error:", e)
+                        print("Original data:", result)
+                    except Exception as e:
+                        print("Exception:", e)
+            except Exception as e:
+                print("Serial port error:", e)
 
 
     def update_scores(self, team1_score, team2_score):
