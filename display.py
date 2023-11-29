@@ -221,7 +221,7 @@ class CornholeGameUI(QMainWindow):
                 print("check")
                 try:
                     print("before try")
-                    data = json.load(result)
+                    data = json.loads(result)
                     print("loaded")
                     print(data)
                     self.update_display_state(data, 0)
