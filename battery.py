@@ -14,6 +14,9 @@ class BatteryIndicator(QWidget):
         self.setFixedSize(120, 60)  # Adjust the size for both the bars and label
 
     def set_battery_level(self, battery_level):
+        if battery_level < 0:
+            battery_level = 0
+            
         if 0 <= battery_level <= 100:
             self.battery_level = battery_level
             self.update()

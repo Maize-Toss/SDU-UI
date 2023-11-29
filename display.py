@@ -168,15 +168,15 @@ class CornholeGameUI(QMainWindow):
     
     def update_battery_level(self, cbu_id, battery_level):
         print("update battery " + str(cbu_id) + " to " + str(battery_level))
-        color = ""
-        if battery_level >= 70:
-            color = "green"
-        elif battery_level < 70 and battery_level > 20:
-            color = "orange"
-        else:
-            color = "red"
+        # color = ""
+        # if battery_level >= 70:
+        #     color = "green"
+        # elif battery_level < 70 and battery_level > 20:
+        #     color = "orange"
+        # else:
+        #     color = "red"
 
-        print(color)
+        # print(color)
 
         if cbu_id == 0:
             self.battery_widget0.set_battery_level(float(battery_level))
@@ -188,7 +188,7 @@ class CornholeGameUI(QMainWindow):
         return 0
     
     def update_display_state(self, data, cbu_id):
-            battery_level = data["battery"] 
+            battery_level = float(data["battery"]) 
             team1d = int(data["team1d"])
             team2d = int(data["team2d"]) 
 
@@ -209,7 +209,7 @@ class CornholeGameUI(QMainWindow):
                 self.team2_score_label.setText(str(new_score))
 
             # update battery level
-            self.update_battery_level(cbu_id, float(battery_level))
+            self.update_battery_level(cbu_id, battery_level)
 
     # Function to call when /dev/rfcomm0 is written
     def listen_bluetooth0(self):
