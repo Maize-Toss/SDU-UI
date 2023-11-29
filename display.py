@@ -139,7 +139,7 @@ class CornholeGameUI(QMainWindow):
             self.stop_event.set()
 
             self.monitor_thread0.join()
-            # self.monitor_thread1.join()
+            self.monitor_thread1.join()
             
             event.accept()
         else:
