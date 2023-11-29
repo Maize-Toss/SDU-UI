@@ -225,9 +225,11 @@ class CornholeGameUI(QMainWindow):
                     print("loaded")
                     print(data)
                     self.update_display_state(data, 0)
-                except:
-                    print("after try")
-                    print(result)
+                except json.JSONDecodeError as e:
+                    print("JSON decoding error:", e)
+                    print("Original data:", result)
+                except Exception as e:
+                    print("Exception:", e)
 
     # Function to call when /dev/rfcomm1 is written
     def listen_bluetooth1(self):
