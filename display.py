@@ -216,7 +216,7 @@ class CornholeGameUI(QMainWindow):
         print("listener 0 started...")
         while not self.stop_event.is_set():
             while self.ser0.in_waiting:
-                result = self.ser0.readline().decode('utf-8').strip()
+                result = self.ser0.readline().decode('utf-8').replace('\x00', '').strip()
                 print("Original data:", repr(result))
                 print("String length:", len(result))
                 print("check")
