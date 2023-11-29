@@ -214,8 +214,8 @@ class CornholeGameUI(QMainWindow):
     # Function to call when /dev/rfcomm0 is written
     def listen_bluetooth0(self):
         print("listener 0 started...")
-        while not self.stop_event.is_set():
-            try:
+        try:
+            while not self.stop_event.is_set():
                 while self.ser0.in_waiting:
                     result = self.ser0.readline().decode('utf-8').replace('\x00', '').strip()
                     print("Original data:", repr(result))
@@ -228,15 +228,15 @@ class CornholeGameUI(QMainWindow):
                         print("Original data:", result)
                     except Exception as e:
                         print("Exception:", e)
-            except Exception as e:
-                print("Serial port error:", e)
-                return
+        except Exception as e:
+            print("Serial port error:", e)
+            return
 
     # Function to call when /dev/rfcomm1 is written
     def listen_bluetooth1(self):
         print("listener 1 started...")
-        while not self.stop_event.is_set():
-            try:
+        try:
+            while not self.stop_event.is_set():
                 while self.ser1.in_waiting:
                     result = self.ser1.readline().decode('utf-8').replace('\x00', '').strip()
                     print("Original data:", repr(result))
@@ -249,8 +249,8 @@ class CornholeGameUI(QMainWindow):
                         print("Original data:", result)
                     except Exception as e:
                         print("Exception:", e)
-            except Exception as e:
-                print("Serial port error:", e)
+        except Exception as e:
+            print("Serial port error:", e)
 
 
     def update_scores(self, team1_score, team2_score):
