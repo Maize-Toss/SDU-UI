@@ -217,9 +217,11 @@ class CornholeGameUI(QMainWindow):
         while not self.stop_event.is_set():
             while self.ser0.in_waiting:
                 result = self.ser0.readline().decode('ascii')
+                print(result)
+                print("check")
                 try:
                     print("before try")
-                    data = json.loads(result)
+                    data = json.load(result)
                     print("loaded")
                     print(data)
                     self.update_display_state(data, 0)
