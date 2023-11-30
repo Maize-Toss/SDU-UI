@@ -215,10 +215,10 @@ class CornholeGameUI(QMainWindow):
             diff = abs(team1d - team2d)
             # update the state for highest scoring team
             if team1d > team2d:
-                new_score = int(self.team1_score_label.text()) + team1d
+                new_score = int(self.team1_score_label.text()) + diff
                 self.team1_score_label.setText(str(new_score))
             elif team2d > team1d:
-                new_score = int(self.team2_score_label.text()) + team2d
+                new_score = int(self.team2_score_label.text()) + diff
                 self.team2_score_label.setText(str(new_score))
 
             # update battery level
