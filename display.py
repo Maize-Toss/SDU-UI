@@ -272,6 +272,8 @@ class CornholeGameUI(QMainWindow):
         self.team2_score_label.setText(str(team2_score))
 
     def send_state(self, cbu, end_round):
+        # wait for state
+        time.sleep(11)
         uiState = self.get_ui_state(end_round)
         json_object = json.dumps(uiState, indent = 4)  
         self.write_to_rfcomm(json_object, cbu)
@@ -295,7 +297,6 @@ class CornholeGameUI(QMainWindow):
         # message_box.setText("End of Round")
         # message_box.setIcon(QMessageBox.Information)
         # message_box.exec_()
-        time.sleep(11)
 
         # Create a new thread and pass the function and its arguments
         send_thread = threading.Thread(target=self.send_state, args=(2, True))
