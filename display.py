@@ -1,4 +1,4 @@
-import sys
+import sys, os
 from PyQt5.QtWidgets import QApplication, QMainWindow, QVBoxLayout, QHBoxLayout, QWidget, QLabel, QGridLayout, QPushButton, QMessageBox
 from PyQt5.QtGui import QPixmap, QFont
 from PyQt5.QtCore import Qt
@@ -14,6 +14,17 @@ import battery as bat
 class CornholeGameUI(QMainWindow):
     def __init__(self):
         super().__init__()
+
+        # Get the list of files in the folder
+        files = os.listdir('./audio')
+        # Get the number of files
+        self.sound_files = files
+        self.num_soundtracks = len(files)
+        self.soundtrack_index = 0
+
+        print(self.sound_files)
+        print(self.num_soundtracks)
+        print(self.soundtrack_index)
 
         # Create a Serial object for /dev/rfcomm0
         self.ser0 = serial.Serial('/dev/rfcomm0', 9600)  # Adjust the baud rate as needed
@@ -263,8 +274,19 @@ class CornholeGameUI(QMainWindow):
         json_object = json.dumps(uiState, indent = 4)  
         self.write_to_rfcomm(json_object, cbu)
     
+    def get_filename(self, index):
+        if index >= self.num_soundtracks:
+            index = 0
+
+        filename = self.sound_files[index]
+        index = index + 1 
+
+        return "./audio/" + filename
+    
     def end_round_button_clicked(self):
-        QSound.play("wombo.wav")  # Replace "audio.wav" with the path to your sound file
+                # Soundtrack tracker
+        filename = self.get_filename(self.sound_index)
+        QSound.play(filename)  # Replace "audio.wav" with the path to your sound file
 
         # message_box = QMessageBox()
         # message_box.setWindowTitle("Maize Toss")
