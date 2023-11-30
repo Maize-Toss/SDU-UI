@@ -273,7 +273,7 @@ class CornholeGameUI(QMainWindow):
 
     def send_state(self, cbu, end_round):
         # wait for state
-        time.sleep(22)
+        time.sleep(11)
         uiState = self.get_ui_state(end_round)
         json_object = json.dumps(uiState, indent = 4)  
         self.write_to_rfcomm(json_object, cbu)
