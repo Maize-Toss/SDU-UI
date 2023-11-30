@@ -204,7 +204,8 @@ class CornholeGameUI(QMainWindow):
             if team1d > 0:
                 new_score = int(self.team1_score_label.text()) + team1d
                 self.team1_score_label.setText(str(new_score))
-            elif team2d > 1:
+            
+            if team2d > 1:
                 new_score = int(self.team2_score_label.text()) + team2d
                 self.team2_score_label.setText(str(new_score))
 
