@@ -16,7 +16,7 @@ class CornholeGameUI(QMainWindow):
         super().__init__()
 
         # Get the list of files in the folder
-        files = os.listdir('/home/sdu/git/SDU-UI/audio')
+        files = os.listdir('/home/sdu/git/SDU-UI/audio/')
         # Get the number of files
         self.sound_files = files
         self.num_soundtracks = len(files)
