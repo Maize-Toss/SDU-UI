@@ -211,12 +211,13 @@ class CornholeGameUI(QMainWindow):
             # check input
             assert (team1d >= 0 or team2d >= 0)
 
-            # update the state
-            if team1d > 0:
+            # compute delta
+            diff = abs(team1d - team2d)
+            # update the state for highest scoring team
+            if team1d > team2d:
                 new_score = int(self.team1_score_label.text()) + team1d
                 self.team1_score_label.setText(str(new_score))
-            
-            if team2d > 0:
+            elif team2d > team1d:
                 new_score = int(self.team2_score_label.text()) + team2d
                 self.team2_score_label.setText(str(new_score))
 
