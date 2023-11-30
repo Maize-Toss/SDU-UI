@@ -243,7 +243,7 @@ class CornholeGameUI(QMainWindow):
                     print("String length:", len(result))
                     try:
                         data = json.loads(result)
-                        self.update_display_state(data, 0)
+                        self.update_display_state(data, 1)
                     except json.JSONDecodeError as e:
                         print("JSON decoding error:", e)
                         print("Original data:", result)
