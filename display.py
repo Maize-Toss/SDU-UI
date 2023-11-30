@@ -20,11 +20,11 @@ class CornholeGameUI(QMainWindow):
         # Get the number of files
         self.sound_files = files
         self.num_soundtracks = len(files)
-        self.soundtrack_index = 0
+        self.sound_index = 0
 
         print(self.sound_files)
         print(self.num_soundtracks)
-        print(self.soundtrack_index)
+        print(self.sound_index)
 
         # Create a Serial object for /dev/rfcomm0
         self.ser0 = serial.Serial('/dev/rfcomm0', 9600)  # Adjust the baud rate as needed
