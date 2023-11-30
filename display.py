@@ -280,7 +280,7 @@ class CornholeGameUI(QMainWindow):
             index = 0
 
         filename = self.sound_files[index]
-        index = index + 1 
+        self.sound_index = index + 1 
 
         return "./audio/" + filename
     
